@@ -6,7 +6,7 @@ describe("Checkout Step Two", () => {
     cy.addItemToCartWithUI(1);
     cy.get(".shopping_cart_link").click();
     cy.get("[data-test=checkout]").click();
-    cy.checkoutWithUI({ onlyFirstStep: true });
+    cy.checkoutWithUI({ upToFirstStep: true });
   });
 
   it("should display item name, description, price and quantity", () => {
