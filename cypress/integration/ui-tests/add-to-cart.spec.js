@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
 
-import { createArrInRange } from "../../support/utils";
+import { createNumArrInRange } from "../../support/utils";
 
 describe("Add to Cart", () => {
-  const itemNums = createArrInRange(6, 1);
+  const itemNums = createNumArrInRange(6);
   const itemAddToCartLocators = {
     1: "[data-test=add-to-cart-sauce-labs-backpack]",
     2: "[data-test=add-to-cart-sauce-labs-bike-light]",
@@ -40,14 +40,14 @@ describe("Add to Cart", () => {
     }
   });
 
-  it("should increase the item amount number after adding an item to cart", () => {
+  it("should increase the item amount number on badge after adding an item to cart", () => {
     for (const itemNum of itemNums) {
       cy.addItemToCartWithUI(itemNum);
       cy.get(".shopping_cart_badge").should("contain.text", itemNum);
     }
   });
 
-  it("should decrease the item amount number after removing an item from cart", () => {
+  it("should decrease the item amount number on badge after removing an item from cart", () => {
     for (const itemNum of itemNums) {
       cy.addItemToCartWithUI(itemNum);
     }
@@ -55,10 +55,10 @@ describe("Add to Cart", () => {
     for (const itemNum of itemNums.reverse()) {
       cy.removeItemFromCartWithUI(itemNum);
 
-      // Do not check for 0, check for '' instead as badge will be empty.
-      let itemNumToCheck = itemNum - 1 === 0 ? "" : itemNum - 1;
-      itemNumToCheck
-        ? cy.get(".shopping_cart_badge").should("contain.text", itemNumToCheck)
+      // Do not check for 0, check for '' instead as badge will not exist.
+      let itemNumOnBadge = itemNum - 1 === 0 ? "" : itemNum - 1;
+      itemNumOnBadge
+        ? cy.get(".shopping_cart_badge").should("contain.text", itemNumOnBadge)
         : cy.get(".shopping_cart_badge").should("not.exist");
     }
   });
