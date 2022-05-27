@@ -1,0 +1,21 @@
+{
+  "name": "saucelabs-automation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install",
+    "test": "cypress run",
+    "test:headless": "cypress run --headless",
+    "test:open": "npx cypress open"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress-image-snapshot": "^4.0.1",
+    "cypress": "^9.2.1"
+  },
+  "dependencies": {
+    "find-up": "^6.3.0"
+  }
+}
