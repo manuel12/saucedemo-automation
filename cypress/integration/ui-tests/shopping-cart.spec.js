@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
 
-import { createArrInRange } from "../../support/utils";
+import { createNumArrInRange } from "../../support/utils";
 
 describe("Shopping Cart", () => {
-  const itemNums = createArrInRange(6, 1);
+  const itemNums = createNumArrInRange(6);
 
   beforeEach(() => {
     cy.clearLocalStorage();
