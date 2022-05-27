@@ -1,39 +1,11 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-
-import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
+import { addMatchImageSnapshotCommand } from "cypress-image-snapshot/command";
+import { createNumArrInRange } from "./utils";
+const testuserData = require("../fixtures/testuser.json");
 
 addMatchImageSnapshotCommand({
   failureThreshold: 3,
   failureThresholdType: "percent",
 });
-
-import { createArrInRange } from "./utils";
-
-const testuserData = require("../fixtures/testuser.json");
 
 Cypress.Commands.add("loginWithUI", (username, password) => {
   /**
@@ -70,11 +42,11 @@ Cypress.Commands.add("addItemToCartWithUI", (itemNum, multiple = false) => {
    * Add a specific item to the cart.
    *
    * If multiple is set to true it will add all items
-   * until reaching the itemNum. So if itemNum 4 and multiple
+   * until reaching the set itemNum. So if itemNum 4 and multiple
    * is set to true then it will add items 1, 2, 3, and 4 to cart.
    */
 
-  // If we are not in inventory we are on cart, and we need to navigate
+  // In case are not in inventory and we are on cart, we need to navigate
   // to inventory.
   cy.get("body").then((body) => {
     if (body.find("[data-test=continue-shopping]").length > 0) {
@@ -92,7 +64,7 @@ Cypress.Commands.add("addItemToCartWithUI", (itemNum, multiple = false) => {
   };
 
   if (multiple) {
-    for (let item of createArrInRange(itemNum, 1)) {
+    for (let item of createNumArrInRange(itemNum, 1)) {
       cy.get(itemLocators[item]).click();
     }
   } else {
@@ -117,33 +89,34 @@ Cypress.Commands.add("removeItemFromCartWithUI", (itemNum) => {
   cy.get(itemLocators[itemNum]).click();
 });
 
-Cypress.Commands.add("checkoutWithUI", ({
-  onlyFirstStep = false,
-  onlySecondStep = false,
-}) => {
+Cypress.Commands.add("checkoutWithUI", (upToFirstStep = false) => {
   /**
-   * Go through the checkout flow.
+   * Goes through the checkout flow.
+   *
+   * The function can go through specific steps on the checkout
+   * flow.
+   *
+   * If upToFirstStep is set to true it will complete step one
+   * of the checkout flow and leave the user on step two of the flow.
+   * 
+   * If no arguments are passed the function will complete all steps
+   * of the checkout flow and leave the user on checkout completed step.
    */
 
   cy.url().then((url) => {
-    if(url !== "https://www.saucedemo.com/checkout-step-one.html") {
+    if (url !== "https://www.saucedemo.com/checkout-step-one.html") {
       cy.visit("https://www.saucedemo.com/checkout-step-one.html");
-    }    
-  })
+    }
+  });
 
-  
   // Step One.
   cy.get("[data-test=firstName]").type("first name");
   cy.get("[data-test=lastName]").type("last name");
   cy.get("[data-test=postalCode]").type("30-444");
 
   cy.get("[data-test=continue]").should("be.visible").click();
-  if(onlyFirstStep) return;
+  if (upToFirstStep) return;
 
   // Step Two.
   cy.get("[data-test=finish]").click();
-  if(onlySecondStep) return;
-  
-  // Complete!
-  cy.get(".header_secondary_container").should("be.visible");
 });
