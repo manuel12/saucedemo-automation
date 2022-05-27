@@ -1,26 +1,15 @@
 /// <reference types="cypress" />
 
+import {
+  sortAscending,
+  sortDescending,
+  getNumValuesFromPricesArr,
+} from "../../support/utils";
+
 describe("Inventory Filter", () => {
   let itemNames = [];
   let itemPrices = [];
   let itemNumPrices = [];
-
-  const sortAscending = function (a, b) {
-    return a - b;
-  };
-  const sortDescending = function (a, b) {
-    return b - a;
-  };
-
-  const getNumValuesFromStringArr = (stringArr) => {
-    let numValues = [];
-    for (const itemValueStr of stringArr) {
-      const cleanedItemValueStr = itemValueStr.replace("$", "");
-      const itemNum = Number(cleanedItemValueStr);
-      numValues.push(itemNum);
-    }
-    return numValues;
-  };
 
   const pushElementTextToArr = (element, arr) => {
     return cy.get(element).each(($el) => {
@@ -39,7 +28,7 @@ describe("Inventory Filter", () => {
     cy.loginWithUI();
     pushElementTextToArr(".inventory_item_name", itemNames);
     pushElementTextToArr(".inventory_item_price", itemPrices).then(() => {
-      itemNumPrices = getNumValuesFromStringArr(itemPrices);
+      itemNumPrices = getNumValuesFromPricesArr(itemPrices);
     });
   });
 
@@ -82,7 +71,7 @@ describe("Inventory Filter", () => {
       ".inventory_item_price",
       lowToHighPricesStrValues
     ).then(() => {
-      const lowToHighPricesNumValues = getNumValuesFromStringArr(
+      const lowToHighPricesNumValues = getNumValuesFromPricesArr(
         lowToHighPricesStrValues
       );
       expect(lowToHighPricesNumValues).to.deep.equal(
@@ -103,7 +92,7 @@ describe("Inventory Filter", () => {
       ".inventory_item_price",
       highToLowPricesStrValues
     ).then(() => {
-      const highToLowPricesNumValues = getNumValuesFromStringArr(
+      const highToLowPricesNumValues = getNumValuesFromPricesArr(
         highToLowPricesStrValues
       );
       expect(highToLowPricesNumValues).to.deep.equal(
