@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
 
-import { createArrInRange } from "../../support/utils";
+import { createNumArrInRange } from "../../support/utils";
 
 describe("Item Detail Page", () => {
-  const itemNums = createArrInRange(6, 1);
+  const itemNums = createNumArrInRange(6);
 
   beforeEach(() => {
     cy.loginWithUI();
@@ -25,8 +25,9 @@ describe("Item Detail Page", () => {
 
   it("should redirect to inventory when clicking 'back to products' button", () => {
     cy.get(":nth-child(1) > .inventory_item_name").first().click();
-
     cy.get("[data-test=back-to-products]").should("be.visible").click();
+
+    cy.url().should("contain", "https://www.saucedemo.com/inventory.html");
   });
 
   for (const itemNum of itemNums) {
