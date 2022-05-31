@@ -36,6 +36,7 @@ describe("Login", () => {
       it(`should login with username: ${username}`, () => {
         cy.loginWithUI(username, password);
 
+        cy.waitForInventoryImgsToLoad();
         cy.get("#header_container").should("be.visible");
         cy.get("#inventory_container")
           .should("be.visible")
