@@ -43,6 +43,7 @@ describe("Inventory Filter", () => {
       expect(zToAItemNames).to.deep.equal(itemNames.reverse());
     });
 
+    cy.waitForInventoryImgsToLoad();
     cy.get("#inventory_container").matchImageSnapshot();
   });
 
@@ -59,6 +60,7 @@ describe("Inventory Filter", () => {
       expect(aToZItemNames).to.deep.equal(itemNames);
     });
 
+    cy.waitForInventoryImgsToLoad();
     cy.get("#inventory_container").matchImageSnapshot();
   });
 
@@ -79,6 +81,7 @@ describe("Inventory Filter", () => {
       );
     });
 
+    cy.waitForInventoryImgsToLoad();
     cy.get("#inventory_container").matchImageSnapshot();
   });
 
@@ -100,6 +103,7 @@ describe("Inventory Filter", () => {
       );
     });
 
+    cy.waitForInventoryImgsToLoad();
     cy.get("#inventory_container").matchImageSnapshot();
   });
 });
