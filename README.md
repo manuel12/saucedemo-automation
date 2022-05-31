@@ -1,5 +1,7 @@
 # Saucedemo Automation
 
+[![saucedemo-automation](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/detailed/2zh6uw&style=plastic&logo=cypress)](https://dashboard.cypress.io/projects/2zh6uw/runs)
+
 A project to showcase E2E test automation done against the mock website https://www.saucedemo.com/ by https://saucelabs.com/ using [Cypress](https://www.cypress.io/).
 
 The tests include UI and visual tests.
