@@ -18,7 +18,12 @@ describe("Item Detail Page", () => {
       cy.get(".inventory_details_name").should("be.visible");
       cy.get(".inventory_details_desc").should("be.visible");
       cy.get(".inventory_details_price").should("be.visible");
-      cy.get(".inventory_details_img").should("be.visible");
+      cy.get(".inventory_details_img")
+        .should("be.visible")
+        .and(($img) => {
+          expect($img[0].naturalWidth).to.be.greaterThan(0);
+        });
+      cy.wait(500);
       cy.get("#inventory_item_container").matchImageSnapshot();
     });
   }
