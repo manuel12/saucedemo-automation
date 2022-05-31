@@ -120,3 +120,13 @@ Cypress.Commands.add("checkoutWithUI", (upToFirstStep = false) => {
   // Step Two.
   cy.get("[data-test=finish]").click();
 });
+
+Cypress.Commands.add("waitForInventoryImgsToLoad", () => {
+  /**
+   * Waits for all the inventory images to load.
+   */
+  cy.get("img.inventory_item_img").each(($img) => {
+    expect($img[0].naturalWidth).to.be.greaterThan(0);
+  });
+  cy.wait(500);
+})
